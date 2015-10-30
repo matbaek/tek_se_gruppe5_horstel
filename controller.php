@@ -11,13 +11,10 @@ $succ = socket_connect($sock, $host, $port) //Connecting to to server using that
 		or die("error: could not connect to host\n");
 		
 function sendSQL($sqlString) {
-
 	global $port;
 	global $host;
 	global $sock;
 	global $succ;
-
-	
 
 	$text = $sqlString; //the text we want to send to the server
 
@@ -32,16 +29,8 @@ function sendSQL($sqlString) {
 
 
 function createUser($name, $phoneNr, $adress, $email, $password) {
-	$sql = "INSERT INTO Account (email, password) VALUE ('$email', '$password')";
-	sendSQL($sql);
-	sleep(5);
-	$sql2 = "INSERT INTO Contactinfo (name, phoneNr, adress) VALUE ('$name', $phoneNr, '$adress')";
-	sendSQL($sql2);
-}
-
-function loginCheck($email, $password) {
-	$sql = "SELECT * FROM Account WHERE email='$email' AND password='$password'";
-	sendSQL($sql);
+	$message = "Login][username, 12093812903, hjemasmas 12, oads@asldk.dk, 123123";
+	sendSQL($message);
 }
 
 // Create User
@@ -54,16 +43,9 @@ switch($type) {
 		$adress = $_POST['adress'];
 		$email = $_POST['email'];
 		$password = md5($_POST['password']);
-		echo $name;
-		echo $phoneNr;
-		echo $adress;
-		echo $email;
-		echo $password;
 		createUser($name, $phoneNr, $adress, $email, $password);
+		break;
 		
-	case 'l':
-		$email = $_POST['email'];
-		$password = md5($_POST['password']);
 }
 
 ?>
