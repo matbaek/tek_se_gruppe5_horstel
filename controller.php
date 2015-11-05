@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $result = "";
 $port = 4343; //the port on which we are connecting to the "remote" machine
@@ -24,13 +25,45 @@ function sendSQL($sqlString) {
 	socket_recv($sock, $result, 10000, MSG_PEEK)
 		or die("error: failed to recieve message\n");
 
-	echo $result;
+	return $result;
 }
 
 
 function createUser($name, $phoneNr, $adress, $email, $password) {
-	$message = "Login][username, 12093812903, hjemasmas 12, oads@asldk.dk, 123123";
+	$message = "CreateUser][" . $name . "; " . $phoneNr . "; " . $adress . "; " . $email . "; " . $password;
 	sendSQL($message);
+	header("Location: index.php");
+}
+
+function loginCheck($email, $password) {
+	$message = "Login][" . $email . "; " . $password;
+	$result = sendSQL($message);
+	
+	if($result == "-1") {
+		header("Location: index.php");
+	} else {
+		 $_SESSION["id"] = $result;
+		header("Location: main.php");
+	}
+}
+
+function createStable($accountID, $fee, $description, $adress, $spaces, $name) {
+	$message = "CreateStable][" . $accountID . "; " . $fee . "; " . $description . "; " . $adress . "; " . $spaces . "; " . $name;
+	sendSQL($message);
+	header("Location: main.php");
+}
+
+function getHorse($accountID) {
+	$message = "GetHorse][" . $accountID;
+	$result = sendSQL($message);
+	
+	header("Location: horses.php");
+}
+
+function addHorse($accountID, $name) {
+	$message = "AddHorse][" . $accountID . "; " . $name;
+	sendSQL($message);
+	header("Location: main.php");
 }
 
 // Create User
@@ -46,6 +79,32 @@ switch($type) {
 		createUser($name, $phoneNr, $adress, $email, $password);
 		break;
 		
+	case 'l':
+		$email = $_POST['email'];
+		$password = md5($_POST['password']);
+		loginCheck($email, $password);
+		break;
+		
+	case "cs":
+		$accountID = $_SESSION['id'];
+		$name = $_POST['name'];
+		$adress = $_POST['adress'];
+		$description = $_POST['description'];
+		$fee = $_POST['fee'];
+		$spaces = $_POST['spaces'];
+		createStable($accountID, $fee, $description, $adress, $spaces, $name);
+		break;
+		
+	case "gh":
+		$accountID = $_SESSION['id'];
+		getHorse($accountID);
+		break;
+		
+	case "ah":
+		$accountID = $_SESSION['id'];
+		$name = $_POST['name'];
+		AddHorse($accountID, $name);
+		break;
 }
 
 ?>
