@@ -2,13 +2,14 @@
 session_start();
 
 if($_SESSION['id']) {
-	header("Location: main.php");
+	header("Location: findstable.php");
 } 
 ?>
 
 <html>
 <head>
 <title>Horstel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
 

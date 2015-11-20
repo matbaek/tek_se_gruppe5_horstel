@@ -12,7 +12,15 @@ switch($_SESSION['id']) {
 
 }
 
-$result = getHorse($_SESSION['id']);
+switch($_SESSION['superAdmin']) {
+	case null:
+	case "":
+	case "0":
+		header("Location: findStable.php");
+		break;
+}
+
+$result = getUser();
 ?>
 
 <html>
@@ -25,25 +33,25 @@ $result = getHorse($_SESSION['id']);
 <div style="float: right;text-align: right;">
 	<a href='findstable.php'>Back</a>
 </div>
-<h1>Add horse</h1>
-<form action="controller.php?t=ah" method="POST">
-  	Name:<input type="text" name="name" value="">
-  	<br><br>
-  	<input type="submit" value="Submit">
-</form>
-<br><br>
+<h1>Create admin</h1>
 <?php
 $count = 1;
 
-$countSplit = explode(";", $result);
+$countSplit = explode("; ", $result);
 
 for($i=0;$i<$countSplit[0];$i++) {
-	$stringSplit = explode(",", $countSplit[$count]);
-	echo $stringSplit[0] . " - <a href='#'>link</a>";
+	$stringSplit = explode(", ", $countSplit[$count]);
+	echo $stringSplit[1] . " - ";
+	if($stringSplit[2] == 0) {
+		echo "<a href='controller.php?t=ca&id=" . $stringSplit[0] . "'>Make admin</a>";
+	} elseif($stringSplit[2] == 1) {
+		echo "Already admin";
+	}
 	echo "<br>";
 	$count++;
 }
 ?>
+
 
 </body>
 </html>

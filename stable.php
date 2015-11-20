@@ -12,7 +12,7 @@ switch($_SESSION['id']) {
 
 }
 
-$result = getHorse($_SESSION['id']);
+$result = getStable($_SESSION['id']);
 ?>
 
 <html>
@@ -25,13 +25,23 @@ $result = getHorse($_SESSION['id']);
 <div style="float: right;text-align: right;">
 	<a href='findstable.php'>Back</a>
 </div>
-<h1>Add horse</h1>
-<form action="controller.php?t=ah" method="POST">
+<h1>Create stable</h1>
+<form action="controller.php?t=cs" method="POST">
   	Name:<input type="text" name="name" value="">
+	<br>
+  	Adress:<input type="text" name="adress" value="">
+	<br>
+  	Description:<input type="text" name="description" value="">
+	<br>
+  	Fee:<input type="number" name="fee" value="">
+	<br>
+  	Spaces:<input type="number" name="spaces" value="">
+	<br>
+  	Zip Code:<input type="number" name="zipCode" value="">
   	<br><br>
   	<input type="submit" value="Submit">
 </form>
-<br><br>
+
 <?php
 $count = 1;
 
@@ -39,7 +49,7 @@ $countSplit = explode(";", $result);
 
 for($i=0;$i<$countSplit[0];$i++) {
 	$stringSplit = explode(",", $countSplit[$count]);
-	echo $stringSplit[0] . " - <a href='#'>link</a>";
+	echo $stringSplit[0] . ", " . $stringSplit[1] . " - <a href='#'>link</a>";
 	echo "<br>";
 	$count++;
 }

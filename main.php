@@ -12,19 +12,17 @@ switch($_SESSION['id']) {
 }
 ?>
 
-<a href='logout.php'>Logud</a> - <a href='controller.php?t=gh'>Horses</a>
+<html>
+<head>
+<title>Horstel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+<a href='logout.php'>Logud</a> - <a href='horses.php'>Horses</a> - <a href='stable.php'>Stable</a> - 
+<a href='findStable.php'>FindStable</a> - <a href='reviewstable.php'>ReviewStable</a> - 
+<a href='createadmin.php'>CreateAdmin</a> - <a href='alteruser.php'>AlterUser</a>
 <br><br>
-<h1>Create stable</h1>
-<form action="controller.php?t=cs" method="POST">
-  	Name:<input type="text" name="name" value="">
-	<br>
-  	Adress:<input type="text" name="adress" value="">
-	<br>
-  	Description:<input type="text" name="description" value="">
-	<br>
-  	Fee:<input type="number" name="fee" value="">
-	<br>
-  	Spaces:<input type="number" name="spaces" value="">
-  	<br><br>
-  	<input type="submit" value="Submit">
-</form>
+
+</body>
+</html>
