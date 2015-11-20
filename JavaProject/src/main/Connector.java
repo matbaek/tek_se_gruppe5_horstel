@@ -91,18 +91,20 @@ public class Connector {
         ResultSet rs = stmt.executeQuery(sql);
         String returnString = new String();
         Boolean emptyString = false;
+        int count = 0;
         
         while(rs.next()) {
             returnString += rs.getString("name") + ",";
             returnString += rs.getString("adress") + ",";
             returnString += rs.getString("image") + ";";
             emptyString = true;
+            count++;
         }
         if (emptyString == false){
             returnString = "-1";
         }       
-        System.out.println(returnString);
-        return returnString;
+        System.out.println(count + ";" + returnString);
+        return count + ";" + returnString;
         
     }
     
@@ -130,17 +132,19 @@ public class Connector {
         ResultSet rs = stmt.executeQuery(sql);
         String returnString = new String();
         Boolean emptyString = false;
+        int count = 0;
         
         while(rs.next()) {
             returnString += rs.getString("name") + ",";
             returnString += rs.getString("image") + ";";
             emptyString = true;
+            count++;
         } 
         if (emptyString == false){
             returnString = "-1";
         }
-        System.out.println(returnString);
-        return returnString;
+        System.out.println(count + ";" + returnString);
+        return count + ";" + returnString;
     }
     
     public String addHorse(int accID, String name) throws ClassNotFoundException{
@@ -343,7 +347,7 @@ public class Connector {
         String returnString = new String();
         Boolean emptyString = false;
         int count = 0;
-        sql = "SELECT accID, admin FROM Account ORDER BY accID;" ;
+        sql = "SELECT accID, active, admin FROM Account ORDER BY accID;" ;
         conn = DriverManager.getConnection(DB_URL,USER,PASS);
         stmt = conn.createStatement();
         ResultSet rsTwo = stmt.executeQuery(sql);
@@ -352,7 +356,8 @@ public class Connector {
             rsTwo.next();
             returnString += rsTwo.getString("accID") + ", ";
             returnString += rs.getString("name") + ", ";
-            returnString += rsTwo.getString("admin") + "; ";
+            returnString += rsTwo.getString("admin") + ", ";
+            returnString += rsTwo.getString("active") + "; ";
             emptyString = true;
             count++;
         }
@@ -378,6 +383,24 @@ public class Connector {
             returnString = "-1";
         }
         return returnString;
+    }
+    
+    public String alterUser(int accID, int active) throws ClassNotFoundException{
+        Class.forName("com.mysql.jdbc.Driver");
+        String returnString = new String();
+        try {
+            String sql = "UPDATE Account SET active= "+ active +" WHERE accID=" + accID +";";
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            returnString = "1";
+        } catch (SQLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+            returnString = "-1";
+        }
+        return returnString;
+        
+        
     }
     
     
